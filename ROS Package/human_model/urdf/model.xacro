@@ -1,0 +1,281 @@
+<?xml version="1.0"  encoding="utf-8"?>
+
+<robot name="human_model" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <link name="world"/>
+
+  <!-- model to world -->
+  <joint name="world_joint" type="fixed">
+    <origin xyz="0 0 0.075" rpy="0 0 0"/>
+    <parent link="world"/>
+    <child link="base"/>
+  </joint>
+
+  <!-- base link -->
+  <link name="base">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.1 0.15"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.1 0.15"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- base to shoulder -->
+  <joint name="shoulder" type="revolute">
+    <origin xyz="0 0.055 0.0755" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <parent link="base"/>
+    <child link="shoulder_disk"/>
+    
+    <limit effort="30" velocity="1.0" lower="0" upper="3.14150" />
+  </joint>
+
+  <!-- shoulder -->
+  <link name="shoulder_disk">
+    <visual>
+      <origin xyz="0 -0.0025 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.005"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 -0.0025 0" rpy="1.57079632679 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+    <pose xyz="0 0 0" rpy="1.1517 0 0"/>
+  </link>
+
+  <!-- shoulder to arm -->
+  <joint name="shoulder2" type="revolute">
+    <origin xyz="0 0.005 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <parent link="shoulder_disk"/>
+    <child link="upper_arm"/>
+    
+    <limit effort="30" velocity="1.0" lower="0" upper="3.14150" />
+  </joint>
+
+  <!-- upper arm -->
+  <link name="upper_arm">
+    <collision>
+      <origin xyz="0 0 -0.03" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.06"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 -0.03" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.06"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 -0.03" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  
+  <!-- upper arm to elbow -->
+  <joint name="elbow" type="revolute">
+    <origin xyz="0 0 -0.06" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <parent link="upper_arm"/>
+    <child link="elbow_disk"/>
+    
+    <limit effort="30" velocity="1.0" lower="0" upper="3.14150" />
+  </joint>
+
+  <!-- elbow -->
+  <link name="elbow_disk">
+    <visual>
+      <origin xyz="0 0 -0.0025" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.005"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 -0.0025" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+<!-- elbow to arm -->
+  <joint name="elbow2" type="revolute">
+    <origin xyz="0 0 -0.005" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <parent link="elbow_disk"/>
+    <child link="lower_arm"/>
+    
+    <limit effort="30" velocity="1.0" lower="0" upper="3.14150" />
+  </joint>
+
+  <!-- lower arm -->
+  <link name="lower_arm">
+    <collision>
+      <origin xyz="0 0 -0.03" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.06"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 -0.03" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.06"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 -0.03" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- imu to upper arm -->
+  <joint name="imu_upper_arm" type="fixed">
+    <origin xyz="0 0.006 -0.005" rpy="0 0 0"/>
+    <parent link="upper_arm"/>
+    <child link="imu_upper"/>
+  </joint>
+
+  <!-- imu -->
+  <link name="imu_upper">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.008 0.001 0.005"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.008 0.001 0.005"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- imu to lower arm -->
+  <joint name="imu_lower_arm" type="fixed">
+    <origin xyz="0 0.006 -0.005" rpy="0 0 0"/>
+    <parent link="lower_arm"/>
+    <child link="imu_lower"/>
+  </joint>
+
+  <!-- imu -->
+  <link name="imu_lower">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.008 0.001 0.005"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.008 0.001 0.005"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- Gazebo Plugins -->
+  <gazebo reference="imu_upper">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>imu_upper</topicName>
+        <bodyName>imu_upper</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>imu_upper</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="imu_lower">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>imu_lower</topicName>
+        <bodyName>imu_lower</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>imu_lower</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <!-- Colors -->
+  <material name="blue">
+    <color rgba="0.1 0.1 0.9 1"/>
+  </material>
+
+  <material name="grey">
+    <color rgba="0.8 0.8 0.8 1"/>
+  </material>
+
+  <material name="red">
+    <color rgba="0.9 0.1 0.1 1"/>
+  </material>
+
+  <material name="green">
+    <color rgba="0.2 0.9 0.2 1"/>
+  </material>
+
+</robot>

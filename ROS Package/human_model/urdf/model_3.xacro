@@ -1,0 +1,1235 @@
+<?xml version="1.0" ?>
+
+<robot name="human_model" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <link name="world"/>
+
+  <!-- box to world -->
+  <joint name="world_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="world"/>
+    <child link="leg_ws"/>
+  </joint>
+
+  <!-- box link -->
+  <link name="leg_ws">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/leg_ws.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/leg_ws.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="268.51"/>
+      <origin xyz="0 0 0.27" rpy="0 0 0"/>
+      <inertia 
+      ixx="41.15"   ixy="-0.35"   ixz="0" 
+      iyx="-0.35"   iyy="41.08"   iyz="0"
+      izx="0"   izy="0"   izz="19.68" />
+    </inertial>
+  </link>
+
+  <!-- model to box -->
+  <joint name="leg_joint" type="fixed">
+    <origin xyz="0 0 1.02" rpy="0 0 0"/>
+    <parent link="leg_ws"/>
+    <child link="body"/>
+  </joint>
+
+  <!-- model link -->
+  <link name="body">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Body.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Body.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="15.83"/>
+      <origin xyz="0 0 0.21" rpy="0 0 0"/>
+      <inertia 
+      ixx="1.01"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0.94"   iyz="0"
+      izx="0"   izy="0"   izz="0.12" />
+    </inertial>
+  </link>
+
+  <!-- =============================   HEAD   ========================================== -->
+  <!-- head_z to body -->
+  <joint name="neck_z" type="revolute">
+    <origin xyz="0 0 0.47" rpy="0 0 0"/>
+    <parent link="body"/>
+    <child link="head_z"/>
+
+    <axis xyz="0 0 1"/>
+    <limit effort="30" velocity="1.0" lower="-1.57" upper="1.57" />
+  </joint>
+  
+  <!-- head_z link -->
+  <link name="head_z">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <mass value="2" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  
+  <!-- head_y to head_z -->
+  <joint name="neck_y" type="revolute">
+    <origin xyz="0 0 0.01" rpy="0 0 0"/>
+    <parent link="head_z"/>
+    <child link="head_y"/>
+
+    <axis xyz="0 1 0"/>
+    <limit effort="30" velocity="1.0" lower="-1.2" upper="1.0" />
+  </joint>
+  
+  <!-- head_y link -->
+  <link name="head_y">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+
+    <inertial>
+      <mass value="2" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  
+  <!-- head_x to head_y -->
+  <joint name="neck_x" type="revolute">
+    <origin xyz="0 0 0.01" rpy="0 0 0"/>
+    <parent link="head_y"/>
+    <child link="head_x"/>
+
+    <axis xyz="1 0 0"/>
+    <limit effort="30" velocity="1.0" lower="-0.79" upper="0.79" />
+  </joint>
+  
+  <!-- head_x link -->
+  <link name="head_x">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="2" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- head to head_x -->
+  <joint name="neck" type="fixed">
+    <origin xyz="0 0 0.01" rpy="0 0 0"/>
+    <parent link="head_x"/>
+    <child link="head"/>
+  </joint>
+
+  <!-- head link -->
+  <link name="head">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Head.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Head.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="4.62"/>
+      <origin xyz="0 0 0.13" rpy="0 0 0"/>
+      <inertia 
+      ixx="0.1"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0.11"   iyz="0"
+      izx="0"   izy="0"   izz="0.02" />
+    </inertial>
+  </link>
+
+  <!-- Head IMU -->
+  <joint name="imu_head" type="fixed">
+    <origin xyz="-0.11 0 0.18" rpy="0 0 0"/>
+    <parent link="head"/>
+    <child link="head_imu"/>
+  </joint>
+
+  <!-- Head IMU -->
+  <link name="head_imu">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.001 0.01 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.001 0.01 0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- =============================LEFT ARM========================================== -->
+  <!-- ============================= UPPER ========================================== -->
+  <!-- left_upper_z to body -->
+  <joint name="left_shoulder_z" type="revolute">
+    <origin xyz="0 0.2 0.35" rpy="0 0 0"/>
+    <parent link="body"/>
+    <child link="left_upper_z"/>
+
+    <axis xyz="0 0 1"/>
+    <limit effort="30" velocity="1.0" lower="-1.57" upper="1.57" />
+  </joint>
+  
+  <!-- left_upper_z link -->
+  <link name="left_upper_z">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  
+  <!-- left_upper_y to left_upper_z -->
+  <joint name="left_shoulder_y" type="revolute">
+    <origin xyz="0 0 -0.01" rpy="0 0 0"/>
+    <parent link="left_upper_z"/>
+    <child link="left_upper_y"/>
+
+    <axis xyz="0 1 0"/>
+    <limit effort="30" velocity="1.0" lower="-3.14" upper="1.0" />
+  </joint>
+  
+  <!-- left_upper_y link -->
+  <link name="left_upper_y">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  
+  <!-- left_upper_x to left_upper_y -->
+  <joint name="left_shoulder_x" type="revolute">
+    <origin xyz="0 0 -0.01" rpy="0 0 0"/>
+    <parent link="left_upper_y"/>
+    <child link="left_upper_x"/>
+
+    <axis xyz="1 0 0"/>
+    <limit effort="30" velocity="1.0" lower="-0.9" upper="2.7" />
+  </joint>
+  
+  <!-- left_upper_x link -->
+  <link name="left_upper_x">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- upper to left_upper_x -->
+  <joint name="left_shoulder" type="fixed">
+    <origin xyz="0 0 -0.005" rpy="0 0 0"/>
+    <parent link="left_upper_x"/>
+    <child link="left_upper"/>
+  </joint>
+
+  <!-- upper link -->
+  <link name="left_upper">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Upper.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Upper.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.55"/>
+      <origin xyz="0 0 -0.12" rpy="0 0 0"/>
+      <inertia 
+      ixx="0.01"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0.01"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- left_upper IMU -->
+  <joint name="imu_left_upper" type="fixed">
+    <origin xyz="0 0.032 -0.125" rpy="0 0 0"/>
+    <parent link="left_upper"/>
+    <child link="left_upper_imu"/>
+  </joint>
+
+  <!-- left_upper IMU -->
+  <link name="left_upper_imu">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.01 0.001 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.001 0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- ============================= LOWER ========================================== -->
+  <!-- lower to upper -->
+  <joint name="left_elbow" type="revolute">
+    <origin xyz="0 0 -0.275" rpy="0 0 0"/>
+    <parent link="left_upper"/>
+    <child link="left_lower"/>
+
+    <axis xyz="0 1 0"/>
+    <limit effort="30" velocity="1.0" lower="-2.35619" upper="0.0" />
+  </joint>
+
+  <!-- lower link -->
+  <link name="left_lower">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Lower.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Lower.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.22"/>
+      <origin xyz="0 0 -0.11" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- left_lower IMU -->
+  <joint name="imu_left_lower" type="fixed">
+    <origin xyz="0 0.02 -0.125" rpy="0 0 0"/>
+    <parent link="left_lower"/>
+    <child link="left_lower_imu"/>
+  </joint>
+
+  <!-- left_lower IMU -->
+  <link name="left_lower_imu">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.01 0.001 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.001 0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- =============================  HAND  ========================================== -->
+  <!-- left_hand_z to left_lower -->
+  <joint name="left_wrist_z" type="revolute">
+    <origin xyz="0 0 -0.255" rpy="0 0 0"/>
+    <parent link="left_lower"/>
+    <child link="left_hand_z"/>
+
+    <axis xyz="0 0 1"/>
+    <limit effort="30" velocity="1.0" lower="-1.0" upper="2.5" />
+  </joint>
+  
+  <!-- left_hand_z link -->
+  <link name="left_hand_z">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  
+  <!-- left_hand_y to left_hand_z -->
+  <joint name="left_wrist_y" type="revolute">
+    <origin xyz="0 0 -0.01" rpy="0 0 0"/>
+    <parent link="left_hand_z"/>
+    <child link="left_hand_y"/>
+
+    <axis xyz="0 1 0"/>
+    <limit effort="30" velocity="1.0" lower="-0.3" upper="0.6" />
+  </joint>
+  
+  <!-- left_hand_y link -->
+  <link name="left_hand_y">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  
+  <!-- left_hand_x to left_hand_y -->
+  <joint name="left_wrist_x" type="revolute">
+    <origin xyz="0 0 -0.01" rpy="0 0 0"/>
+    <parent link="left_hand_y"/>
+    <child link="left_hand_x"/>
+
+    <axis xyz="1 0 0"/>
+    <limit effort="30" velocity="1.0" lower="-1.3" upper="1.2" />
+  </joint>
+  
+  <!-- left_hand_x link -->
+  <link name="left_hand_x">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- hand to left_hand_x -->
+  <joint name="left_wrist" type="fixed">
+    <origin xyz="0 0 -0.005" rpy="0 0 0"/>
+    <parent link="left_hand_x"/>
+    <child link="left_hand"/>
+  </joint>
+
+  <!-- hand link -->
+  <link name="left_hand">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Hand.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Hand.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.21"/>
+      <origin xyz="0 0 -0.07" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- left_hand IMU -->
+  <joint name="imu_left_hand" type="fixed">
+    <origin xyz="0 0.013 -0.04" rpy="0 0 0"/>
+    <parent link="left_hand"/>
+    <child link="left_hand_imu"/>
+  </joint>
+
+  <!-- left_hand IMU -->
+  <link name="left_hand_imu">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.01 0.001 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.001 0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- =============================RIGHT ARM========================================== -->
+  <!-- ============================= UPPER ========================================== -->
+  <!-- right_upper_z to body -->
+  <joint name="right_shoulder_z" type="revolute">
+    <origin xyz="0 -0.2 0.35" rpy="0 0 0"/>
+    <parent link="body"/>
+    <child link="right_upper_z"/>
+
+    <axis xyz="0 0 1"/>
+    <limit effort="30" velocity="1.0" lower="-1.57" upper="1.57" />
+  </joint>
+  
+  <!-- right_upper_z link -->
+  <link name="right_upper_z">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  
+  <!-- right_upper_y to right_upper_z -->
+  <joint name="right_shoulder_y" type="revolute">
+    <origin xyz="0 0 -0.01" rpy="0 0 0"/>
+    <parent link="right_upper_z"/>
+    <child link="right_upper_y"/>
+
+    <axis xyz="0 1 0"/>
+    <limit effort="30" velocity="1.0" lower="-3.14" upper="1.0" />
+  </joint>
+  
+  <!-- right_upper_y link -->
+  <link name="right_upper_y">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  
+  <!-- right_upper_x to right_upper_y -->
+  <joint name="right_shoulder_x" type="revolute">
+    <origin xyz="0 0 -0.01" rpy="0 0 0"/>
+    <parent link="right_upper_y"/>
+    <child link="right_upper_x"/>
+
+    <axis xyz="1 0 0"/>
+    <limit effort="30" velocity="1.0" lower="-2.7" upper="0.9" />
+  </joint>
+  
+  <!-- right_upper_x link -->
+  <link name="right_upper_x">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- upper to right_upper_x -->
+  <joint name="right_shoulder" type="fixed">
+    <origin xyz="0 0 -0.005" rpy="0 0 0"/>
+    <parent link="right_upper_x"/>
+    <child link="right_upper"/>
+  </joint>
+
+  <!-- upper link -->
+  <link name="right_upper">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Upper.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Upper.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.55"/>
+      <origin xyz="0 0 -0.12" rpy="0 0 0"/>
+      <inertia 
+      ixx="0.01"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0.01"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+  
+  <!-- right_upper IMU -->
+  <joint name="imu_right_upper" type="fixed">
+    <origin xyz="0 -0.032 -0.125" rpy="0 0 0"/>
+    <parent link="right_upper"/>
+    <child link="right_upper_imu"/>
+  </joint>
+
+  <!-- right_upper IMU -->
+  <link name="right_upper_imu">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.01 0.001 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.001 0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- ============================= LOWER ========================================== -->
+  <!-- lower to upper -->
+  <joint name="right_elbow" type="revolute">
+    <origin xyz="0 0 -0.275" rpy="0 0 0"/>
+    <parent link="right_upper"/>
+    <child link="right_lower"/>
+
+    <axis xyz="0 1 0"/>
+    <limit effort="30" velocity="1.0" lower="-1" upper="1" />
+  </joint>
+
+  <!-- lower link -->
+  <link name="right_lower">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Lower.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Lower.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.22"/>
+      <origin xyz="0 0 -0.11" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+  
+  <!-- right_lower IMU -->
+  <joint name="imu_right_lower" type="fixed">
+    <origin xyz="0 -0.02 -0.125" rpy="0 0 0"/>
+    <parent link="right_lower"/>
+    <child link="right_lower_imu"/>
+  </joint>
+
+  <!-- right_lower IMU -->
+  <link name="right_lower_imu">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.01 0.001 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.001 0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- =============================  HAND  ========================================== -->
+  <!-- right_hand_z to right_lower -->
+  <joint name="right_wrist_z" type="revolute">
+    <origin xyz="0 0 -0.255" rpy="0 0 0"/>
+    <parent link="right_lower"/>
+    <child link="right_hand_z"/>
+
+    <axis xyz="0 0 1"/>
+    <limit effort="30" velocity="1.0" lower="-1.0" upper="2.5" />
+  </joint>
+  
+  <!-- right_hand_z link -->
+  <link name="right_hand_z">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  
+  <!-- right_hand_y to right_hand_z -->
+  <joint name="right_wrist_y" type="revolute">
+    <origin xyz="0 0 -0.01" rpy="0 0 0"/>
+    <parent link="right_hand_z"/>
+    <child link="right_hand_y"/>
+
+    <axis xyz="0 1 0"/>
+    <limit effort="30" velocity="1.0" lower="-0.3" upper="0.6" />
+  </joint>
+  
+  <!-- right_hand_y link -->
+  <link name="right_hand_y">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+  
+  <!-- right_hand_x to right_hand_y -->
+  <joint name="right_wrist_x" type="revolute">
+    <origin xyz="0 0 -0.01" rpy="0 0 0"/>
+    <parent link="right_hand_y"/>
+    <child link="right_hand_x"/>
+
+    <axis xyz="1 0 0"/>
+    <limit effort="30" velocity="1.0" lower="-1.3" upper="1.2" />
+  </joint>
+  
+  <!-- right_hand_x link -->
+  <link name="right_hand_x">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.01"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- hand to right_hand_x -->
+  <joint name="right_wrist" type="fixed">
+    <origin xyz="0 0 -0.005" rpy="0 0 0"/>
+    <parent link="right_hand_x"/>
+    <child link="right_hand"/>
+  </joint>
+
+  <!-- hand link -->
+  <link name="right_hand">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Hand.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Hand.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.21"/>
+      <origin xyz="0 0 -0.07" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- right_hand IMU -->
+  <joint name="imu_right_hand" type="fixed">
+    <origin xyz="0 -0.013 -0.04" rpy="0 0 0"/>
+    <parent link="right_hand"/>
+    <child link="right_hand_imu"/>
+  </joint>
+
+  <!-- right_hand IMU -->
+  <link name="right_hand_imu">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.01 0.001 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.001 0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- =============================  Gazebo  ========================================== -->
+  <!-- Gazebo Plugins -->
+  <gazebo reference="head_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>head_imu</topicName>
+        <bodyName>head_imu</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>head_imu</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="left_upper_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>left_upper_imu</topicName>
+        <bodyName>left_upper_imu</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>left_upper_imu</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="left_lower_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>left_lower_imu</topicName>
+        <bodyName>left_lower_imu</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>left_lower_imu</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="left_hand_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>left_hand_imu</topicName>
+        <bodyName>left_hand_imu</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>left_hand_imu</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="right_upper_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>right_upper_imu</topicName>
+        <bodyName>right_upper_imu</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>right_upper_imu</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="right_lower_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>right_lower_imu</topicName>
+        <bodyName>right_lower_imu</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>right_lower_imu</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="right_hand_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>right_hand_imu</topicName>
+        <bodyName>right_hand_imu</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>right_hand_imu</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <!-- =============================  Colors  ========================================== -->
+  <material name="blue">
+    <color rgba="0.1 0.1 0.9 1"/>
+  </material>
+
+  <material name="grey">
+    <color rgba="0.8 0.8 0.8 1"/>
+  </material>
+
+  <material name="red">
+    <color rgba="0.9 0.1 0.1 1"/>
+  </material>
+
+  <material name="green">
+    <color rgba="0.2 0.9 0.2 1"/>
+  </material>
+
+</robot>

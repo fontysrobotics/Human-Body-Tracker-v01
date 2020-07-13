@@ -1,0 +1,366 @@
+<?xml version="1.0" ?>
+
+<robot name="human_model" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <link name="world"/>
+
+  <!-- box to world -->
+  <joint name="world_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="world"/>
+    <child link="leg_ws"/>
+  </joint>
+
+  <!-- box link -->
+  <link name="leg_ws">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/leg_ws.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/leg_ws.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="100"  ixy="0"  ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
+  </link>
+
+  <!-- model to box -->
+  <joint name="leg_joint" type="fixed">
+    <origin xyz="0 0 1.02" rpy="0 0 0"/>
+    <parent link="leg_ws"/>
+    <child link="body"/>
+  </joint>
+
+  <!-- model link -->
+  <link name="body">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Body.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Body.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- head to body -->
+  <joint name="neck" type="revolute">
+    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+    <parent link="body"/>
+    <child link="head"/>
+
+    <axis xyz="0 0 1"/>
+    <limit effort="30" velocity="1.0" lower="-1.3" upper="1.3" />
+  </joint>
+
+  <!-- head link -->
+  <link name="head">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Head.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/head.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- =============================LEFT ARM========================================== -->
+  <!-- upper to body -->
+  <joint name="left_shoulder" type="revolute">
+    <origin xyz="0 0.2 0.35" rpy="0 0 0"/>
+    <parent link="body"/>
+    <child link="left_upper"/>
+
+    <axis xyz="1 0 0"/>
+    <limit effort="30" velocity="1.0" lower="-3" upper="3" />
+  </joint>
+
+  <!-- upper link -->
+  <link name="left_upper">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Upper.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Upper.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- lower to upper -->
+  <joint name="left_elbow" type="revolute">
+    <origin xyz="0 0 -0.275" rpy="0 0 0"/>
+    <parent link="left_upper"/>
+    <child link="left_lower"/>
+
+    <axis xyz="0 1 0"/>
+    <limit effort="30" velocity="1.0" lower="-2.35619" upper="0.0" />
+  </joint>
+
+  <!-- lower link -->
+  <link name="left_lower">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Lower.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Lower.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- hand to lower -->
+  <joint name="left_wrist" type="revolute">
+    <origin xyz="0 0 -0.26" rpy="0 0 0"/>
+    <parent link="left_lower"/>
+    <child link="left_hand"/>
+
+    <axis xyz="0 1 0"/>
+    <limit effort="30" velocity="1.0" lower="-1" upper="1" />
+  </joint>
+
+  <!-- hand link -->
+  <link name="left_hand">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Hand.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Hand.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- =============================RIGHT ARM========================================== -->
+  <!-- upper to body -->
+  <joint name="right_shoulder" type="revolute">
+    <origin xyz="0 -0.2 0.35" rpy="0 0 0"/>
+    <parent link="body"/>
+    <child link="right_upper"/>
+
+    <axis xyz="0 1 0"/>
+    <limit effort="30" velocity="1.0" lower="-1" upper="1" />
+  </joint>
+
+  <!-- upper link -->
+  <link name="right_upper">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Upper.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Upper.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- lower to upper -->
+  <joint name="right_elbow" type="revolute">
+    <origin xyz="0 0 -0.26" rpy="0 0 0"/>
+    <parent link="right_upper"/>
+    <child link="right_lower"/>
+
+    <axis xyz="0 1 0"/>
+    <limit effort="30" velocity="1.0" lower="-1" upper="1" />
+  </joint>
+
+  <!-- lower link -->
+  <link name="right_lower">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Lower.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Lower.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- hand to lower -->
+  <joint name="right_wrist" type="revolute">
+    <origin xyz="0 0 -0.26" rpy="0 0 0"/>
+    <parent link="right_lower"/>
+    <child link="right_hand"/>
+
+    <axis xyz="0 1 0"/>
+    <limit effort="30" velocity="1.0" lower="-1" upper="1" />
+  </joint>
+
+  <!-- hand link -->
+  <link name="right_hand">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Hand.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/Hand.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- Gazebo Plugins -->
+  <!-- <gazebo reference="imu_upper">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>imu_upper</topicName>
+        <bodyName>imu_upper</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>imu_upper</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="imu_lower">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>imu_lower</topicName>
+        <bodyName>imu_lower</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>imu_lower</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo> -->
+
+  <!-- Colors -->
+  <material name="blue">
+    <color rgba="0.1 0.1 0.9 1"/>
+  </material>
+
+  <material name="grey">
+    <color rgba="0.8 0.8 0.8 1"/>
+  </material>
+
+  <material name="red">
+    <color rgba="0.9 0.1 0.1 1"/>
+  </material>
+
+  <material name="green">
+    <color rgba="0.2 0.9 0.2 1"/>
+  </material>
+
+</robot>

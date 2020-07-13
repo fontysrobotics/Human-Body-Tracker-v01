@@ -1,0 +1,716 @@
+<?xml version="1.0" ?>
+
+<robot name="human_model" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <link name="world"/>
+
+  <!-- leg_ws to world -->
+  <joint name="world_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0.22"/>
+    <parent link="world"/>
+    <child link="leg_ws"/>
+  </joint>
+
+  <!-- leg_ws link -->
+  <link name="leg_ws">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/leg_ws.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/leg_ws.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="100"  ixy="0"  ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
+  </link>
+
+  <!-- model to leg_ws -->
+  <joint name="leg_joint" type="fixed">
+    <origin xyz="-0.035 0 1.1" rpy="0 0 -0.22"/>
+    <parent link="leg_ws"/>
+    <child link="body"/>
+  </joint>
+
+  <!-- model link -->
+  <link name="body">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/body.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/body.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- =============================  Head  ========================================== -->
+  <!-- head to body -->
+  <joint name="neck" type="fixed">
+    <origin xyz="0 0 0.52" rpy="0 0 0"/>
+    <parent link="body"/>
+    <child link="head"/>
+  </joint>
+
+  <!-- head link -->
+  <link name="head">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/head.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/head.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- Head IMU -->
+  <joint name="imu_head" type="fixed">
+    <origin xyz="-0.12 0 0.12" rpy="0 0 0"/>
+    <parent link="head"/>
+    <child link="head_imu"/>
+  </joint>
+
+  <!-- Head IMU -->
+  <link name="head_imu">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.001 0.01 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.001 0.01 0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- =============================LEFT ARM========================================== -->
+  <!-- upper to body -->
+  <joint name="left_shoulder" type="fixed">
+    <origin xyz="0.015 0.225 0.46" rpy="0 0 0"/>
+    <parent link="body"/>
+    <child link="left_upper"/>
+  </joint>
+
+  <!-- upper link -->
+  <link name="left_upper">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/left_upper.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/left_upper.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- left_upper IMU -->
+  <joint name="imu_left_upper" type="fixed">
+    <origin xyz="-0.015 0.037 -0.18" rpy="0 0 0"/>
+    <parent link="left_upper"/>
+    <child link="left_upper_imu"/>
+  </joint>
+
+  <!-- left_upper IMU -->
+  <link name="left_upper_imu">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.01 0.001 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.001 0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- lower to upper -->
+  <joint name="left_elbow" type="fixed">
+    <origin xyz="-0.01 0.015 -0.368" rpy="0 0 0"/>
+    <parent link="left_upper"/>
+    <child link="left_lower"/>
+  </joint>
+
+  <!-- lower link -->
+  <link name="left_lower">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/left_lower.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/left_lower.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- left_lower IMU -->
+  <joint name="imu_left_lower" type="fixed">
+    <origin xyz="0.015 0.057 -0.14" rpy="0 0 0"/>
+    <parent link="left_lower"/>
+    <child link="left_lower_imu"/>
+  </joint>
+
+  <!-- left_lower IMU -->
+  <link name="left_lower_imu">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.01 0.001 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.001 0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- hand to lower -->
+  <joint name="left_wrist" type="fixed">
+    <origin xyz="0.05 -0.01 -0.29" rpy="0 0 0"/>
+    <parent link="left_lower"/>
+    <child link="left_hand"/>
+  </joint>
+
+  <!-- hand link -->
+  <link name="left_hand">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/left_hand.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/left_hand.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- left_hand IMU -->
+  <joint name="imu_left_hand" type="fixed">
+    <origin xyz="0 0.03 -0.06" rpy="0 0 0"/>
+    <parent link="left_hand"/>
+    <child link="left_hand_imu"/>
+  </joint>
+
+  <!-- left_hand IMU -->
+  <link name="left_hand_imu">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.01 0.001 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.001 0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- =============================RIGHT ARM========================================== -->
+  <!-- fake -->
+  <!-- <joint name="shoulder_fake" type="fixed">
+    <origin xyz="0.015 -0.225 0.46" rpy="0 0 0"/>
+    <parent link="body"/>
+    <child link="upper_fake"/>
+  </joint> -->
+
+  <!-- fake -->
+  <!-- <link name="upper_fake">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/right_upper.stl" scale="0.00099 0.00099 0.00099"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/right_upper.stl" scale="0.00099 0.00099 0.00099"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link> -->
+
+  <!-- upper to body -->
+  <joint name="right_shoulder" type="fixed">
+    <origin xyz="0.015 -0.225 0.46" rpy="0 0 0"/>
+    <parent link="body"/>
+    <child link="right_upper"/>
+  </joint>
+
+  <!-- upper link -->
+  <link name="right_upper">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/right_upper.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/right_upper.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- right_upper IMU -->
+  <joint name="imu_right_upper" type="fixed">
+    <origin xyz="-0.015 -0.037 -0.18" rpy="0 0 0"/>
+    <parent link="right_upper"/>
+    <child link="right_upper_imu"/>
+  </joint>
+
+  <!-- right_upper IMU -->
+  <link name="right_upper_imu">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.01 0.001 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.001 0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- lower to upper -->
+  <joint name="right_elbow" type="fixed">
+    <origin xyz="-0.01 -0.015 -0.368" rpy="0 0 0"/>
+    <parent link="right_upper"/>
+    <child link="right_lower"/>
+  </joint>
+
+  <!-- lower link -->
+  <link name="right_lower">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/right_lower.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/right_lower.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- right_lower IMU -->
+  <joint name="imu_right_lower" type="fixed">
+    <origin xyz="0.015 -0.057 -0.14" rpy="0 0 0"/>
+    <parent link="right_lower"/>
+    <child link="right_lower_imu"/>
+  </joint>
+
+  <!-- right_lower IMU -->
+  <link name="right_lower_imu">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.01 0.001 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.001 0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- hand to lower -->
+  <joint name="right_wrist" type="fixed">
+    <origin xyz="0.05 0.01 -0.29" rpy="0 0 0"/>
+    <parent link="right_lower"/>
+    <child link="right_hand"/>
+  </joint>
+
+  <!-- hand link -->
+  <link name="right_hand">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/right_hand.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://human_model/meshes/stl/right_hand.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- right_hand IMU -->
+  <joint name="imu_right_hand" type="fixed">
+    <origin xyz="0 -0.032 -0.06" rpy="0 0 0"/>
+    <parent link="right_hand"/>
+    <child link="right_hand_imu"/>
+  </joint>
+
+  <!-- right_hand IMU -->
+  <link name="right_hand_imu">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <box size="0.01 0.001 0.02"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.001 0.02"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia 
+      ixx="0"   ixy="0"   ixz="0" 
+      iyx="0"   iyy="0"   iyz="0"
+      izx="0"   izy="0"   izz="0" />
+    </inertial>
+  </link>
+
+  <!-- =============================  Gazebo  ========================================== -->
+  <!-- Gazebo Plugins -->
+  <gazebo reference="head_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>head_imu</topicName>
+        <bodyName>head_imu</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>head_imu</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="left_upper_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>left_upper_imu</topicName>
+        <bodyName>left_upper_imu</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>left_upper_imu</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="left_lower_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>left_lower_imu</topicName>
+        <bodyName>left_lower_imu</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>left_lower_imu</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="left_hand_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>left_hand_imu</topicName>
+        <bodyName>left_hand_imu</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>left_hand_imu</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="right_upper_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>right_upper_imu</topicName>
+        <bodyName>right_upper_imu</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>right_upper_imu</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="right_lower_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>right_lower_imu</topicName>
+        <bodyName>right_lower_imu</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>right_lower_imu</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="right_hand_imu">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>right_hand_imu</topicName>
+        <bodyName>right_hand_imu</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>right_hand_imu</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
+  <!-- =============================  Colors  ========================================== -->
+  <material name="blue">
+    <color rgba="0.1 0.1 0.9 1"/>
+  </material>
+
+  <material name="grey">
+    <color rgba="0.8 0.8 0.8 1"/>
+  </material>
+
+  <material name="red">
+    <color rgba="0.9 0.1 0.1 1"/>
+  </material>
+
+  <material name="green">
+    <color rgba="0.2 0.9 0.2 1"/>
+  </material>
+
+</robot>
